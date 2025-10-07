@@ -29,7 +29,7 @@ const header = document.querySelector('.header');
 const overlay = document.querySelector('.overlay');
 const barsIcon = document.querySelector('.bars-icon');
 
-// Khi click vào nút bars
+// Toggle menu khi click bars
 barsIcon.addEventListener('click', () => {
     const isActive = header.classList.contains('active');
     if (isActive) {
@@ -41,22 +41,30 @@ barsIcon.addEventListener('click', () => {
     }
 });
 
-// Khi click vào overlay thì đóng menu
+// Click overlay để đóng menu
 overlay.addEventListener('click', () => {
     header.classList.remove('active');
     overlay.classList.remove('active');
 });
 
-// Khi resize cửa sổ, nếu >768px thì đảm bảo header luôn hiện
-window.addEventListener('resize', () => {
+// Xử lý khi thay đổi kích thước màn hình
+window.addEventListener('resize', handleResize);
+window.addEventListener('load', handleResize); // đảm bảo chạy cả khi load trang
+
+function handleResize() {
     if (window.innerWidth > 768) {
+        // Desktop → hiển thị header, tắt overlay
         header.classList.remove('active');
         overlay.classList.remove('active');
-        header.style.transform = 'none'; // đảm bảo luôn hiển thị
+        header.style.transform = ''; // xóa inline style nếu có
     } else {
-        header.style.transform = ''; // reset về trạng thái CSS gốc
+        // Mobile → ẩn header
+        header.classList.remove('active');
+        overlay.classList.remove('active');
+        header.style.transform = ''; // reset để CSS media query tự xử lý
     }
-});
+}
+
 
 
 
